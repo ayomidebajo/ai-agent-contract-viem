@@ -14,6 +14,7 @@ import {
 } from "viem";
 import { baseSepolia } from "viem/chains";
 import superjson from "superjson";
+import { cardClass, globalStyle } from "../styles/style";
 
 export const app = new Hono();
 
@@ -167,10 +168,17 @@ app.get("/", async (c) => {
     console.error("Error:", error);
     result = { message: error };
   }
+
   const { json, meta } = superjson.serialize(result);
 
   // new changes
-  return c.html(`<p>Your derived key: ${result?.derivedPublicKey}</p>`);
+  return c.html(
+    `<div style=${globalStyle}>
+    <div style=${cardClass}> <p>Your derived key: ${result?.derivedPublicKey}</p></div>
+    </div>`
+  );
+
+  // return c.render(`<Card />`);
 });
 
 app.post("/", async (c) => {
